@@ -1,3 +1,12 @@
+"""
+File: routes.py
+Version: 1.2.0
+
+CHANGES FROM 1.1.0:
+- ADDED: /api/user/daily-totals/<user_id> endpoint for VitalsBar persistence
+
+Blueprints for better organization
+"""
 from flask import Blueprint, request, jsonify
 from database_manager import DatabaseManager
 
@@ -60,7 +69,7 @@ def get_diet_plans_route():
 
 
 # ────────────────────────────────────────────────
-# NEW: User Preference Routes
+# User Preference Routes
 # ────────────────────────────────────────────────
 
 @user_bp.route('/api/user/preference/<int:user_id>', methods=['GET'])
@@ -70,8 +79,6 @@ def get_user_preference(user_id):
     Matches frontend call in App.js → /api/user/preference/2
     """
     try:
-        # You need to implement get_user_preference() in DatabaseManager
-        # Expected return: dict with at least {"ActiveDietName": "..."}
         pref = db.get_user_preference(user_id)
         if not pref:
             return jsonify({"error": f"No preferences found for user {user_id}"}), 404
@@ -96,7 +103,6 @@ def update_user_preference():
         return jsonify({"error": "Missing userId or dietName"}), 400
 
     try:
-        # You need to implement update_user_diet_preference() in DatabaseManager
         success = db.update_user_diet_preference(user_id, diet_name)
         if success:
             return jsonify({"message": f"Preference updated for user {user_id}"}), 200
@@ -108,7 +114,50 @@ def update_user_preference():
 
 
 # ────────────────────────────────────────────────
-# NEW: Meal Suggestion Route
+# NEW: Daily Totals Route (for VitalsBar persistence)
+# ────────────────────────────────────────────────
+
+@user_bp.route('/api/user/daily-totals/<int:user_id>', methods=['GET'])
+def get_user_daily_totals(user_id):
+    """
+    NEW: Fetch daily nutritional totals for a user.
+    Used by App.js to persist VitalsBar data across page refreshes.
+    
+    Optional query params:
+      - date: ISO date string (defaults to today)
+    
+    Returns:
+      {
+        "TotalCalories": 520,
+        "TotalProtein": 38,
+        "TotalFat": 28,
+        "TotalCarbs": 22,
+        "MealCount": 1,
+        "ForDate": "2026-01-30"
+      }
+    """
+    target_date = request.args.get('date')  # Optional: '2026-01-30'
+    
+    try:
+        totals = db.get_daily_totals(user_id, target_date)
+        if totals is None:
+            # Return zeros if no data (not an error)
+            return jsonify({
+                "TotalCalories": 0,
+                "TotalProtein": 0,
+                "TotalFat": 0,
+                "TotalCarbs": 0,
+                "MealCount": 0,
+                "ForDate": target_date or "today"
+            }), 200
+        return jsonify(totals), 200
+    except Exception as e:
+        print(f"[Daily Totals Error] user_id={user_id}, date={target_date}: {e}")
+        return jsonify({"error": "Internal server error"}), 500
+
+
+# ────────────────────────────────────────────────
+# Meal Suggestion Route
 # ────────────────────────────────────────────────
 
 @meals_bp.route('/api/meals/suggest', methods=['GET'])
@@ -134,7 +183,7 @@ def suggest_random_meal():
 
 
 # ────────────────────────────────────────────────
-# NEW: Meal Plan Creation Route
+# Meal Plan Creation Route
 # ────────────────────────────────────────────────
 
 @plans_bp.route('/api/meal-plans/add', methods=['POST'])
@@ -155,8 +204,6 @@ def add_meal_plan():
         return jsonify({"error": "Missing required fields: userId, mealId, plannedDate"}), 400
 
     try:
-        # You need to implement insert_meal_plan() in DatabaseManager
-        # Should call appropriate stored procedure (e.g. usp_AddMealPlan)
         success = db.insert_meal_plan(
             user_id=user_id,
             meal_id=meal_id,
@@ -165,8 +212,6 @@ def add_meal_plan():
         )
         
         if success:
-            # Optionally trigger grocery population here too
-            # db.accept_meal_plan(user_id, plan_id)  # if you have plan_id returned
             return jsonify({"message": "Meal plan added successfully"}), 201
         else:
             return jsonify({"error": "Failed to save meal plan"}), 500

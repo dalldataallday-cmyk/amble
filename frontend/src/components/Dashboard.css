@@ -1,3 +1,14 @@
+/**
+ * File: Dashboard.css
+ * Version: 1.2.0
+ * 
+ * CHANGES FROM 1.1.0:
+ * - ADDED: IWS branding styles
+ * - ADDED: Clickable meal card hover effects
+ * - ADDED: Educational banner styling
+ * - ADDED: View Benefits button styling
+ */
+
 .dashboard-container {
     background-color: transparent;
     display: flex;
@@ -5,7 +16,89 @@
     gap: 20px;
 }
 
-/* AI Suggestion Overlay Styling */
+/* ============================================================================
+   IWS BRANDING
+   ============================================================================ */
+
+.planner-header {
+    position: relative;
+}
+
+.planner-header h2 {
+    margin-bottom: 5px;
+}
+
+.iws-branding {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.iws-title {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2e7d32;  /* Forest green - contrasts with black text */
+    letter-spacing: 0.5px;
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    padding: 6px 14px;
+    border-radius: 6px;
+    border-left: 4px solid #2e7d32;
+}
+
+.iws-subtitle {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1565c0;  /* Blue accent for contrast */
+    background: #e3f2fd;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+/* ============================================================================
+   EDUCATIONAL BANNER
+   ============================================================================ */
+
+.education-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+    padding: 12px 20px;
+    border-radius: 8px;
+    border-left: 4px solid #ff9800;
+    animation: slideInBanner 0.5s ease-out;
+}
+
+@keyframes slideInBanner {
+    from { 
+        transform: translateX(-20px); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateX(0); 
+        opacity: 1; 
+    }
+}
+
+.edu-icon {
+    font-size: 1.5rem;
+}
+
+.edu-text {
+    font-size: 0.9rem;
+    color: #e65100;
+}
+
+.edu-text strong {
+    color: #bf360c;
+}
+
+/* ============================================================================
+   AI SUGGESTION OVERLAY STYLING
+   ============================================================================ */
+
 .suggestion-overlay {
     background: #ffffff;
     padding: 20px;
@@ -38,6 +131,7 @@
     display: flex;
     gap: 10px;
     margin-top: 15px;
+    flex-wrap: wrap;
 }
 
 /* Buttons */
@@ -49,10 +143,14 @@
     border-radius: 6px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
 }
 
-.btn-accept:hover { background-color: #43a047; }
+.btn-accept:hover { 
+    background-color: #43a047;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
 
 .btn-regenerate {
     background-color: #f44336;
@@ -62,12 +160,51 @@
     border-radius: 6px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
 }
 
-.btn-regenerate:hover { background-color: #d32f2f; }
+.btn-regenerate:hover { 
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+}
 
-/* Grid Layout (Existing) */
+/* NEW: View Benefits Button */
+.btn-info {
+    background-color: #9c27b0;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-info:hover {
+    background-color: #7b1fa2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(156, 39, 176, 0.3);
+}
+
+.btn-cancel {
+    background-color: #9e9e9e;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+    background-color: #757575;
+}
+
+/* ============================================================================
+   GRID LAYOUT
+   ============================================================================ */
+
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -96,6 +233,10 @@
     flex-grow: 1;
 }
 
+/* ============================================================================
+   CLICKABLE MEAL CARDS
+   ============================================================================ */
+
 .meal-card-mini {
     background: #e3f2fd;
     border-left: 4px solid #1e90ff;
@@ -104,7 +245,54 @@
     border-radius: 6px;
     display: flex;
     flex-direction: column;
+    transition: all 0.25s ease;
+    position: relative;
 }
+
+/* Clickable styles */
+.meal-card-mini.clickable {
+    cursor: pointer;
+}
+
+.meal-card-mini.clickable:hover {
+    background: #bbdefb;
+    border-left-color: #1565c0;
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(30, 136, 229, 0.2);
+}
+
+.meal-card-mini.clickable:active {
+    transform: translateX(2px) scale(0.98);
+}
+
+.meal-name {
+    font-weight: 600;
+    color: #1565c0;
+    margin-bottom: 4px;
+}
+
+.meal-cals {
+    font-size: 0.85rem;
+    color: #5c6bc0;
+}
+
+/* Click hint that appears on hover */
+.meal-click-hint {
+    font-size: 0.7rem;
+    color: #1976d2;
+    opacity: 0;
+    transition: opacity 0.2s;
+    margin-top: 6px;
+    font-style: italic;
+}
+
+.meal-card-mini.clickable:hover .meal-click-hint {
+    opacity: 1;
+}
+
+/* ============================================================================
+   ADD MEAL BUTTON
+   ============================================================================ */
 
 .add-meal-btn {
     width: 100%;
@@ -114,4 +302,52 @@
     cursor: pointer;
     border-radius: 6px;
     color: #718096;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.add-meal-btn:hover {
+    border-color: #4caf50;
+    background: #e8f5e9;
+    color: #4caf50;
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+@media (max-width: 1200px) {
+    .calendar-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .calendar-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .suggestion-actions {
+        flex-direction: column;
+    }
+    
+    .suggestion-actions button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .calendar-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .iws-branding {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .education-banner {
+        flex-direction: column;
+        text-align: center;
+    }
 }

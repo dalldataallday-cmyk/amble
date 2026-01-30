@@ -1,0 +1,541 @@
+/**
+ * File: MealDetailModal.css
+ * Version: 1.0.0
+ * Description: Styling for the interactive meal detail modal with health benefits.
+ *              Designed to match the Amble forest theme.
+ */
+
+/* ============================================================================
+   MODAL OVERLAY & CONTAINER
+   ============================================================================ */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-out;
+    backdrop-filter: blur(4px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background: #ffffff;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 85vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease-out;
+    border: 3px solid #3e563d;
+}
+
+@keyframes slideUp {
+    from { 
+        transform: translateY(30px); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateY(0); 
+        opacity: 1; 
+    }
+}
+
+/* ============================================================================
+   MODAL HEADER
+   ============================================================================ */
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    background: linear-gradient(135deg, #3e563d 0%, #2d5a3d 100%);
+    color: white;
+}
+
+.modal-title-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.modal-subtitle {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    margin-top: 4px;
+}
+
+.modal-close-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.modal-close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+/* ============================================================================
+   TAB NAVIGATION
+   ============================================================================ */
+
+.modal-tabs {
+    display: flex;
+    background: #f8f9fa;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 14px 20px;
+    border: none;
+    background: transparent;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.tab-btn:hover {
+    background: #eef5ee;
+    color: #3e563d;
+}
+
+.tab-btn.active {
+    color: #3e563d;
+    background: white;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #3e563d;
+}
+
+/* ============================================================================
+   MODAL BODY
+   ============================================================================ */
+
+.modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+}
+
+.tab-content {
+    animation: fadeInContent 0.3s ease-out;
+}
+
+@keyframes fadeInContent {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================================
+   OVERVIEW TAB
+   ============================================================================ */
+
+.meal-image-container {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.meal-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-badge {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+}
+
+.macro-summary {
+    margin-bottom: 25px;
+}
+
+.macro-summary h3 {
+    color: #3e563d;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.macro-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.macro-card {
+    text-align: center;
+    padding: 15px 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.macro-card.calories {
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+    color: white;
+}
+
+.macro-card.protein {
+    background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+    color: white;
+}
+
+.macro-card.fat {
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+    color: white;
+}
+
+.macro-card.carbs {
+    background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+    color: white;
+}
+
+.macro-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.macro-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    opacity: 0.9;
+    margin-top: 4px;
+}
+
+.quick-benefits {
+    background: #f0f7f0;
+    padding: 15px 20px;
+    border-radius: 10px;
+    border-left: 4px solid #3e563d;
+}
+
+.quick-benefits h3 {
+    color: #3e563d;
+    margin: 0 0 12px 0;
+    font-size: 1rem;
+}
+
+.benefits-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.benefit-chip {
+    background: white;
+    color: #3e563d;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid #c8e6c9;
+}
+
+/* ============================================================================
+   HEALTH BENEFITS TAB
+   ============================================================================ */
+
+.benefits-intro {
+    background: #e8f5e9;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.benefits-intro p {
+    margin: 0;
+    color: #2e7d32;
+    font-size: 0.95rem;
+}
+
+.ingredient-benefit-card {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    transition: all 0.2s;
+}
+
+.ingredient-benefit-card:hover {
+    border-color: #3e563d;
+    box-shadow: 0 4px 12px rgba(62, 86, 61, 0.1);
+}
+
+.ingredient-header {
+    margin-bottom: 15px;
+}
+
+.ingredient-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #3e563d;
+    font-size: 1.15rem;
+    margin: 0;
+}
+
+.ingredient-icon {
+    font-size: 1.3rem;
+}
+
+.nutrient-list {
+    margin-bottom: 15px;
+}
+
+.nutrient-item {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+    font-size: 0.9rem;
+}
+
+.nutrient-item:last-child {
+    border-bottom: none;
+}
+
+.nutrient-name {
+    font-weight: 600;
+    color: #333;
+    min-width: 140px;
+}
+
+.nutrient-benefit {
+    color: #666;
+}
+
+.key-benefits {
+    background: #f8f9fa;
+    padding: 12px 15px;
+    border-radius: 8px;
+}
+
+.benefits-label {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.85rem;
+    margin-right: 10px;
+}
+
+.benefits-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.benefit-tag {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* ============================================================================
+   INGREDIENTS TAB
+   ============================================================================ */
+
+.ingredients-intro {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.ingredients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.ingredient-group {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.group-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #3e563d;
+    font-size: 1rem;
+    margin: 0 0 12px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #3e563d;
+}
+
+.ingredient-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ingredient-list-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+}
+
+.ingredient-list-item:last-child {
+    border-bottom: none;
+}
+
+.ing-qty {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.ing-name {
+    font-weight: 500;
+    color: #333;
+}
+
+.no-ingredients {
+    text-align: center;
+    color: #888;
+    padding: 30px;
+}
+
+/* ============================================================================
+   MODAL FOOTER
+   ============================================================================ */
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 15px 25px;
+    background: #f8f9fa;
+    border-top: 1px solid #e0e0e0;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #3e563d 0%, #2d5a3d 100%);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(62, 86, 61, 0.3);
+}
+
+.btn-secondary {
+    background: white;
+    color: #666;
+    border: 1px solid #ddd;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background: #f5f5f5;
+    border-color: #ccc;
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+@media (max-width: 600px) {
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+        margin: 10px;
+    }
+
+    .modal-header {
+        padding: 15px 20px;
+    }
+
+    .modal-title {
+        font-size: 1.2rem;
+    }
+
+    .macro-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tab-btn {
+        padding: 10px 8px;
+        font-size: 0.85rem;
+    }
+
+    .modal-body {
+        padding: 15px;
+    }
+
+    .nutrient-item {
+        flex-direction: column;
+    }
+
+    .nutrient-name {
+        min-width: auto;
+        margin-bottom: 4px;
+    }
+
+    .ingredients-grid {
+        grid-template-columns: 1fr;
+    }
+}

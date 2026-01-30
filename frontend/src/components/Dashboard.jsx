@@ -1,9 +1,23 @@
+/**
+ * File: Dashboard.jsx
+ * Version: 1.2.0
+ * 
+ * CHANGES FROM 1.1.0:
+ * - ADDED: Clickable meal cards that open MealDetailModal
+ * - ADDED: IWS (Integrated Wellness Solution) branding
+ * - ADDED: selectedMeal state for modal management
+ * - IMPROVED: Card hover effects and interactivity
+ */
+
 import React, { useState, useEffect } from 'react';
 import './Dashboard.css';
+import MealDetailModal from './MealDetailModal';
 
-    const Dashboard = ({ currentDiet, onMealAdded, onIngredientsAdded }) => {
+const Dashboard = ({ currentDiet, onMealAdded, onIngredientsAdded }) => {
     const [weekData, setWeekData] = useState([]);
-    const [suggestion, setSuggestion] = useState(null); 
+    const [suggestion, setSuggestion] = useState(null);
+    const [selectedMeal, setSelectedMeal] = useState(null); // NEW: For modal
+    const [isModalOpen, setIsModalOpen] = useState(false);  // NEW: Modal visibility
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
     useEffect(() => {
@@ -30,6 +44,8 @@ import './Dashboard.css';
                 name: data.MealName,
                 calories: data.Calories || 0,
                 protein: data.ProteinGrams || 0,
+                fat: data.FatGrams || 0,
+                carbs: data.CarbGrams || 0,
                 img: data.ImageURL || 'https://placehold.co/100x100?text=No+Image',
                 ingredients: data.ingredients || [], 
                 dayIndex: dayIndex
@@ -54,19 +70,24 @@ import './Dashboard.css';
                 body: JSON.stringify({
                     userId: 2,
                     mealId: suggestion.mealId,
-                    plannedDate: new Date().toISOString().split('T')[0], // Today's date for demo
+                    plannedDate: new Date().toISOString().split('T')[0],
                     mealTime: 'Lunch' 
                 })
             });
 
             if (!response.ok) throw new Error('Failed to save meal plan to database');
 
-            // 2. Update Local UI State
+            // 2. Update Local UI State - Store full meal data for modal
             const newWeekData = [...weekData];
             const mealToAdd = {
+                mealId: suggestion.mealId,
                 name: suggestion.name,
                 calories: suggestion.calories,
-                protein: suggestion.protein
+                protein: suggestion.protein,
+                fat: suggestion.fat,
+                carbs: suggestion.carbs,
+                img: suggestion.img,
+                ingredients: suggestion.ingredients
             };
 
             newWeekData[suggestion.dayIndex].meals.push(mealToAdd);
@@ -86,13 +107,44 @@ import './Dashboard.css';
         }
     };
 
+    /**
+     * NEW: Handle meal card click to open modal
+     */
+    const handleMealCardClick = (meal) => {
+        console.log('[Dashboard] Opening meal detail modal for:', meal.name);
+        setSelectedMeal(meal);
+        setIsModalOpen(true);
+    };
+
+    /**
+     * NEW: Close the modal
+     */
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedMeal(null);
+    };
+
     return (
         <div className="dashboard-container">
+            {/* Header Section with IWS Branding */}
             <div className="planner-header">
                 <h2>Weekly Meal Command</h2>
+                <div className="iws-branding">
+                    <span className="iws-title">Integrated Wellness Solution</span>
+                    <span className="iws-subtitle">(IWS)</span>
+                </div>
                 <p>Generating suggestions for: <strong>{currentDiet}</strong></p>
             </div>
 
+            {/* Educational Tip Banner */}
+            <div className="education-banner">
+                <span className="edu-icon">💡</span>
+                <span className="edu-text">
+                    <strong>Pro Tip:</strong> Click on any meal card to learn about the health benefits of its ingredients!
+                </span>
+            </div>
+
+            {/* AI Suggestion Overlay */}
             {suggestion && (
                 <div className="suggestion-overlay">
                     <div className="suggestion-content">
@@ -106,20 +158,30 @@ import './Dashboard.css';
                     <div className="suggestion-actions">
                         <button className="btn-accept" onClick={acceptSuggestion}>Accept & Add to Plan</button>
                         <button className="btn-regenerate" onClick={() => getAiSuggestion(suggestion.dayIndex)}>Regenerate</button>
+                        <button className="btn-info" onClick={() => handleMealCardClick(suggestion)}>
+                            ℹ️ View Benefits
+                        </button>
                         <button className="btn-cancel" onClick={() => setSuggestion(null)}>Cancel</button>
                     </div>
                 </div>
             )}
 
+            {/* Weekly Calendar Grid */}
             <div className="calendar-grid">
                 {weekData.map((day, index) => (
                     <div key={index} className="day-column">
                         <div className="day-header">{day.dayName}</div>
                         <div className="meal-slot">
                             {day.meals.map((meal, mIdx) => (
-                                <div key={mIdx} className="meal-card-mini">
+                                <div 
+                                    key={mIdx} 
+                                    className="meal-card-mini clickable"
+                                    onClick={() => handleMealCardClick(meal)}
+                                    title="Click to view health benefits"
+                                >
                                     <span className="meal-name">{meal.name}</span>
                                     <span className="meal-cals">{meal.calories} kcal</span>
+                                    <span className="meal-click-hint">Click for details →</span>
                                 </div>
                             ))}
                             
@@ -133,6 +195,13 @@ import './Dashboard.css';
                     </div>
                 ))}
             </div>
+
+            {/* Meal Detail Modal */}
+            <MealDetailModal 
+                meal={selectedMeal}
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+            />
         </div>
     );
 };

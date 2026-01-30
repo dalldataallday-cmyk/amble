@@ -1,12 +1,12 @@
 /**
  * File: Dashboard.css
- * Version: 1.2.0
+ * Version: 1.3.0
  * 
- * CHANGES FROM 1.1.0:
- * - ADDED: IWS branding styles
- * - ADDED: Clickable meal card hover effects
- * - ADDED: Educational banner styling
- * - ADDED: View Benefits button styling
+ * CHANGES FROM 1.2.0:
+ * - UPDATED: IWS branding now uses green font color (no boxes)
+ * - REMOVED: Background boxes from .iws-title and .iws-subtitle
+ * - REMOVED: .iws-subtitle class (combined into single title)
+ * - ADDED: Consistent green color styling for IWS title
  */
 
 .dashboard-container {
@@ -17,7 +17,7 @@
 }
 
 /* ============================================================================
-   IWS BRANDING
+   IWS BRANDING - UPDATED: Green text, no boxes
    ============================================================================ */
 
 .planner-header {
@@ -29,32 +29,20 @@
 }
 
 .iws-branding {
-    display: flex;
-    align-items: center;
-    gap: 8px;
     margin-bottom: 10px;
 }
 
+/* UPDATED: Single title with green font color, NO background box */
 .iws-title {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #2e7d32;  /* Forest green - contrasts with black text */
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #2e7d32;  /* Forest green color */
     letter-spacing: 0.5px;
-    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-    padding: 6px 14px;
-    border-radius: 6px;
-    border-left: 4px solid #2e7d32;
+    /* REMOVED: background, padding, border-radius, border-left */
 }
 
-.iws-subtitle {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #1565c0;  /* Blue accent for contrast */
-    background: #e3f2fd;
-    padding: 4px 10px;
-    border-radius: 4px;
-}
+/* REMOVED: .iws-subtitle class - now part of single .iws-title */
 
 /* ============================================================================
    EDUCATIONAL BANNER
@@ -168,7 +156,7 @@
     transform: translateY(-2px);
 }
 
-/* NEW: View Benefits Button */
+/* View Benefits Button */
 .btn-info {
     background-color: #9c27b0;
     color: white;
@@ -339,15 +327,5 @@
 @media (max-width: 600px) {
     .calendar-grid {
         grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .iws-branding {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .education-banner {
-        flex-direction: column;
-        text-align: center;
     }
 }

@@ -1,12 +1,10 @@
 /**
  * File: Dashboard.jsx
- * Version: 1.2.0
+ * Version: 1.3.0
  * 
- * CHANGES FROM 1.1.0:
- * - ADDED: Clickable meal cards that open MealDetailModal
- * - ADDED: IWS (Integrated Wellness Solution) branding
- * - ADDED: selectedMeal state for modal management
- * - IMPROVED: Card hover effects and interactivity
+ * CHANGES FROM 1.2.0:
+ * - UPDATED: IWS branding now uses green text instead of boxes
+ * - UPDATED: "Integrated Wellness Solution (IWS)" is now a single styled title
  */
 
 import React, { useState, useEffect } from 'react';
@@ -16,8 +14,8 @@ import MealDetailModal from './MealDetailModal';
 const Dashboard = ({ currentDiet, onMealAdded, onIngredientsAdded }) => {
     const [weekData, setWeekData] = useState([]);
     const [suggestion, setSuggestion] = useState(null);
-    const [selectedMeal, setSelectedMeal] = useState(null); // NEW: For modal
-    const [isModalOpen, setIsModalOpen] = useState(false);  // NEW: Modal visibility
+    const [selectedMeal, setSelectedMeal] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
     useEffect(() => {
@@ -108,7 +106,7 @@ const Dashboard = ({ currentDiet, onMealAdded, onIngredientsAdded }) => {
     };
 
     /**
-     * NEW: Handle meal card click to open modal
+     * Handle meal card click to open modal
      */
     const handleMealCardClick = (meal) => {
         console.log('[Dashboard] Opening meal detail modal for:', meal.name);
@@ -117,7 +115,7 @@ const Dashboard = ({ currentDiet, onMealAdded, onIngredientsAdded }) => {
     };
 
     /**
-     * NEW: Close the modal
+     * Close the modal
      */
     const handleCloseModal = () => {
         setIsModalOpen(false);
@@ -126,12 +124,11 @@ const Dashboard = ({ currentDiet, onMealAdded, onIngredientsAdded }) => {
 
     return (
         <div className="dashboard-container">
-            {/* Header Section with IWS Branding */}
+            {/* Header Section with IWS Branding - UPDATED: Single green title, no boxes */}
             <div className="planner-header">
                 <h2>Weekly Meal Command</h2>
                 <div className="iws-branding">
-                    <span className="iws-title">Integrated Wellness Solution</span>
-                    <span className="iws-subtitle">(IWS)</span>
+                    <span className="iws-title">Integrated Wellness Solution (IWS)</span>
                 </div>
                 <p>Generating suggestions for: <strong>{currentDiet}</strong></p>
             </div>

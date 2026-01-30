@@ -1,50 +1,226 @@
-.grocery-container {
-  padding: 20px;
-  background: #fff;
-  border-radius: 12px;
+/**
+ * File: GroceryList.css
+ * Version: 1.1.0
+ * 
+ * CHANGES FROM 1.0.0:
+ * - ADDED: Header flexbox layout for logo positioning
+ * - ADDED: Logo styling (size adjustable via --logo-size variable)
+ * - ADDED: Improved grocery item styling
+ * - ADDED: Group icons support
+ */
+
+/* ============================================================================
+   CONTAINER
+   ============================================================================ */
+
+.grocery-list-container {
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    border: 2px solid #3e563d;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.aisle-section {
-  margin-bottom: 25px;
+/* ============================================================================
+   HEADER WITH LOGO
+   ============================================================================ */
+
+.grocery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;  /* Align tops of both elements */
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #3e563d;
 }
 
-.aisle-header {
-  color: #2f3542;
-  border-bottom: 2px solid #1e90ff;
-  padding-bottom: 5px;
-  text-transform: uppercase;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
+.grocery-title {
+    margin: 0;
+    color: #3e563d;
+    font-size: 1.3rem;
+    font-weight: 700;
+    padding-top: 5px;  /* Fine-tune vertical alignment with logo */
 }
 
-.ingredient-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #f1f2f6;
+.grocery-logo-container {
+    flex-shrink: 0;
 }
 
-.ingredient-item.in-pantry {
-  opacity: 0.5;
-  text-decoration: line-through;
+/* Logo size - adjust this variable to change logo size */
+.grocery-logo {
+    --logo-size: 120px;  /* ADJUSTABLE: Change this value to resize logo */
+    
+    width: var(--logo-size);
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* Alternative sizes - uncomment one to use */
+/* Small logo */
+/* .grocery-logo { --logo-size: 45px; } */
+
+/* Medium logo (default) */
+/* .grocery-logo { --logo-size: 60px; } */
+
+/* Large logo */
+/* .grocery-logo { --logo-size: 80px; } */
+
+/* ============================================================================
+   CONTENT AREA
+   ============================================================================ */
+
+.grocery-content {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.empty-message {
+    color: #888;
+    font-style: italic;
+    text-align: center;
+    padding: 30px 10px;
+}
+
+/* ============================================================================
+   GROCERY GROUPS
+   ============================================================================ */
+
+.grocery-group {
+    margin-bottom: 20px;
+}
+
+.grocery-group:last-child {
+    margin-bottom: 0;
+}
+
+.group-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #2f3542;
+    border-bottom: 2px solid #1e90ff;
+    padding-bottom: 8px;
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.group-icon {
+    font-size: 1.1rem;
+}
+
+/* ============================================================================
+   GROCERY ITEMS
+   ============================================================================ */
+
+.grocery-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.grocery-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 8px;
+    border-bottom: 1px solid #f1f2f6;
+    transition: background-color 0.2s;
+}
+
+.grocery-item:last-child {
+    border-bottom: none;
+}
+
+.grocery-item:hover {
+    background-color: #f8f9fa;
 }
 
 .item-name {
-  font-weight: 600;
-  display: block;
+    font-weight: 600;
+    color: #333;
+    flex: 1;
 }
 
 .item-qty {
-  font-size: 0.85rem;
-  color: #747d8c;
+    font-size: 0.85rem;
+    color: #666;
+    background: #e8f5e9;
+    padding: 4px 10px;
+    border-radius: 12px;
+    margin-right: 12px;
+    font-weight: 500;
+}
+
+/* ============================================================================
+   LEGACY STYLES (kept for backward compatibility)
+   ============================================================================ */
+
+.grocery-container {
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+}
+
+.aisle-section {
+    margin-bottom: 25px;
+}
+
+.aisle-header {
+    color: #2f3542;
+    border-bottom: 2px solid #1e90ff;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.ingredient-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f1f2f6;
+}
+
+.ingredient-item.in-pantry {
+    opacity: 0.5;
+    text-decoration: line-through;
 }
 
 .pantry-toggle {
-  padding: 5px 12px;
-  border-radius: 20px;
-  border: 1px solid #ced4da;
-  background: white;
-  cursor: pointer;
-  font-size: 0.75rem;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid #ced4da;
+    background: white;
+    cursor: pointer;
+    font-size: 0.75rem;
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+@media (max-width: 600px) {
+    .grocery-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .grocery-title {
+        order: 2;
+    }
+    
+    .grocery-logo-container {
+        order: 1;
+    }
+    
+    .grocery-logo {
+        --logo-size: 50px;
+    }
 }

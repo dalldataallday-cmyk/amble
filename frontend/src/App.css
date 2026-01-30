@@ -1,8 +1,11 @@
 /**
  * File: App.css
- * Version: 1.1.0
- * Description: Global styles for Amble including decorative clock borders 
- * and layout spacing.
+ * Version: 1.2.0
+ * 
+ * CHANGES FROM 1.1.0:
+ * - REMOVED: Logo from header (moved to GroceryList component)
+ * - KEPT: Legacy logo styles for reference/fallback
+ * - ADDED: Spacer class fix (spacer-ten-spaces)
  */
 
 .amble-app {
@@ -42,9 +45,9 @@
 /* Decorative Clock Border */
 .clock-wrapper {
   padding: 15px 25px;
-  border: 2px double #ff8c00;          /* Orange border */
+  border: 2px double #3e563d;
   border-radius: 8px;
-  background: #000000;                  /* Black background */
+  background: #f8fafc;
   box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
 }
 
@@ -53,12 +56,16 @@
   font-weight: bold;
   font-size: 1.1rem;
   letter-spacing: 1px;
-  color: #33ff33 !important;             /* Light green (terminal style) */
 }
 
-/* 10 Spaces spacing */
+/* Spacer - FIXED: Now matches JSX class name */
 .spacer-ten-spaces {
-  margin-left: 60px; /* Equivalent to roughly 10 characters of space */
+  margin-left: 60px;
+}
+
+/* Legacy class name kept for backward compatibility */
+.spacer-ten-steps {
+  margin-left: 60px;
 }
 
 .diet-selector {
@@ -70,10 +77,16 @@
   cursor: pointer;
 }
 
+/* ============================================================================
+   LOGO STYLES - DEPRECATED (Logo moved to GroceryList)
+   These styles are kept for reference but no longer used in header
+   ============================================================================ */
+
 .global-logo-container {
   width: 80px;
   height: 80px;
-  margin-left: auto; /* Push logo to the far right */
+  margin-left: auto;
+  /* NOTE: Logo has been moved to GroceryList/Smart Shopping List section */
 }
 
 .app-logo {
@@ -81,6 +94,10 @@
   height: auto;
   object-fit: contain;
 }
+
+/* ============================================================================
+   MAIN CONTENT LAYOUT
+   ============================================================================ */
 
 .main-content {
   display: flex;
@@ -94,4 +111,37 @@
 
 .sidebar-section {
   flex: 1;
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+@media (max-width: 1200px) {
+  .main-content {
+    flex-direction: column;
+  }
+  
+  .planner-section,
+  .sidebar-section {
+    flex: none;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-command-bar {
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 15px;
+  }
+  
+  .spacer-ten-spaces,
+  .spacer-ten-steps {
+    display: none;
+  }
+  
+  .diet-control {
+    width: 100%;
+  }
 }

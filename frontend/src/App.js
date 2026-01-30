@@ -1,12 +1,9 @@
 /**
  * File: App.js
- * Version: 1.2.0
+ * Version: 1.3.0
  * 
- * CHANGES FROM 1.1.0:
- * - FIXED: Property name mismatch (protein vs proteinGrams) in updateVitals
- * - ADDED: Load daily totals from database on startup (persistence)
- * - ADDED: Refresh totals after meal is added
- * - IMPROVED: Error handling and loading states
+ * CHANGES FROM 1.2.0:
+ * - REMOVED: Logo from top-right header (moved to GroceryList component)
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -25,7 +22,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   // ============================================================================
-  // NEW: Function to load daily totals from database
+  // Function to load daily totals from database
   // ============================================================================
   const loadDailyTotals = useCallback(async () => {
     try {
@@ -36,7 +33,6 @@ function App() {
           ...prev,
           calories: data.TotalCalories || 0,
           protein: data.TotalProtein || 0
-          // water is tracked separately (could add hydration table later)
         }));
         console.log('[App.js] Loaded daily totals from DB:', data);
       }
@@ -74,7 +70,7 @@ function App() {
           }
         }
 
-        // NEW: Load today's totals from database (persistence!)
+        // Load today's totals from database (persistence!)
         await loadDailyTotals();
 
       } catch (e) { 
@@ -106,7 +102,7 @@ function App() {
   };
 
   // ============================================================================
-  // FIXED: Update Vitals (corrected property name)
+  // Update Vitals (corrected property name)
   // ============================================================================
   const updateVitals = useCallback((meal) => {
     console.log('[App.js] updateVitals called with:', meal);
@@ -114,17 +110,12 @@ function App() {
     setDailyStats(prev => {
       const newStats = {
         ...prev,
-        // FIX: Accept both 'protein' and 'proteinGrams' for flexibility
         calories: prev.calories + (meal.calories || 0),
         protein: prev.protein + (meal.protein || meal.proteinGrams || 0)
       };
       console.log('[App.js] New dailyStats:', newStats);
       return newStats;
     });
-
-    // OPTIONAL: Reload from DB to ensure sync (belt-and-suspenders approach)
-    // Uncomment if you want guaranteed accuracy from the database
-    // setTimeout(() => loadDailyTotals(), 500);
   }, []);
 
   // ============================================================================
@@ -164,9 +155,7 @@ function App() {
 
         <VitalsBar dailyStats={dailyStats} />
         
-        <div className="global-logo-container">
-          <img src="logo_amble.png" alt="Amble Logo" className="app-logo" />
-        </div>
+        {/* REMOVED: Logo moved to GroceryList/Smart Shopping List section */}
       </header>
       
       <main className="main-content">
